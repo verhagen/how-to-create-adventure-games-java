@@ -1,0 +1,52 @@
+= How to Create Adventure Games
+
+by Christopher Lampton
+
+A Computer awareness first book
+
+[cols="3,6,1"]
+|===
+|Chapter One
+|The Imagination Machine
+|1
+
+|Chapter Two
+|Mapping Your Imagination
+|7
+
+|Chapter Three
+|Getting Your Bearings
+|17
+
+|Chapter Four
+|Filling the World
+|29
+
+|Chapter Five
+|The Parser
+|35
+
+|Chapter Six
+|Verbs and Nouns
+|39
+
+|Chapter Seven
+|Verbs, Verbs, and More Verbs
+|49
+
+|Chapter Eight
+|Finishing Touches
+|59
+
+|Appendix A
+|The Quest
+|63
+
+|Appendix B
+|Adventure Game Skeleton
+|75
+
+|Index
+|
+|85
+|===
