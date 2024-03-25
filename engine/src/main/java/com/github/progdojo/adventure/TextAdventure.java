@@ -1,12 +1,10 @@
 package com.github.progdojo.adventure;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TextAdventure {
+
     private enum Direction {
         NORTH(0)
         , SOUTH(1)
@@ -46,6 +44,7 @@ public class TextAdventure {
     private Map<Integer,List<Integer>> roomConnections = initializeRoomConnections();
     private Integer[][] roomDirections = initializeRoomDirections(initializeRoomConnections());
 
+    private int room = 1; // Current room (starting always in room 1 - the living room)
 
     public TextAdventure() {
         initializeObjects();
@@ -103,6 +102,35 @@ public class TextAdventure {
         return bldr.toString();
     }
 
+    public List<String> getDescription() {
+        List<String> text = new ArrayList<>();
+        text.add(roomDescription(room));
+        text.add(directionDescription(room));
+        text.add(objectDescription(room));
+        return text;
+    }
+
+    // Lines 100-200
+    public String[] parser(String input) {
+        if (input == null) {
+            return new String[2];
+        }
+        input = input.trim();
+        if (input.length() == 0) {
+            return new String[2];
+        }
+        String verb, noun;
+        if (input.contains(" ")) {
+            String[] inputArr = input.split(" ");
+            verb = inputArr[0].length() > 3 ? inputArr[0].substring(0,3) : inputArr[0];
+            noun = inputArr[1].length() > 3 ? inputArr[1].substring(0,3) : inputArr[1];
+        }
+        else {
+            verb = input.length() > 3 ? input.substring(0,3) : input;
+            noun = null;
+        }
+        return new String[] {verb, noun};
+    }
     // Lines 27000 - 29900
     private String[] initializeRooms() {
       String[] rooms = new String[] {
