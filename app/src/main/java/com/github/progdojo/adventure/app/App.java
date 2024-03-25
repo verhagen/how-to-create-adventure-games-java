@@ -26,6 +26,7 @@ public class App {
                 int room = Integer.parseInt(input);
                 if (room >= 1 && room <= textAdventure.getNumberOfRooms()) {
                     System.out.println(textAdventure.roomDescription(room));
+                    System.out.println(textAdventure.directionDescription(room));
                 } else {
                     System.out.println("NO ROOM EXISTS WITH NUMBER %d.".formatted(room));
                 }

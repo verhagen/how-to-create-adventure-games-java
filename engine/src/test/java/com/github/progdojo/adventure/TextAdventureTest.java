@@ -14,4 +14,13 @@ public class TextAdventureTest {
         assertEquals("YOU ARE IN AN OPEN FIELD.", textAdventure.roomDescription(6));
         assertEquals("YOU ARE ON THE TOP OF A TREE.", textAdventure.roomDescription(19));
     }
+
+    @Test
+    public void directionDescription() {
+        TextAdventure textAdventure = new TextAdventure();
+
+        assertEquals("YOU CAN GO: NORTH SOUTH EAST", textAdventure.directionDescription(1));
+        assertEquals("YOU CAN GO: WEST", textAdventure.directionDescription(2));
+        assertEquals("YOU CAN GO: NORTH", textAdventure.directionDescription(3));
+    }
 }
