@@ -11,10 +11,10 @@ public class App {
     public static void main(String[] args) throws IOException {
         TextAdventure textAdventure = new TextAdventure();
         System.out.println("WELCOME TO: HOW TO CREATE (TEXT) ADVENTURES GAMES");
+        System.out.println(textAdventure.getDescription().stream().collect(Collectors.joining("\n")));
 //        System.out.println("Choose a room you like to see: 1..%d".formatted(textAdventure.getNumberOfRooms()));
         boolean exitGame = false;
         do {
-            System.out.println(textAdventure.getDescription().stream().collect(Collectors.joining("\n")));
 
             System.out.println("WHAT NOW?");
 
@@ -26,6 +26,13 @@ public class App {
             System.out.println("Verb: %s  Noun: %s".formatted(parser[0], parser[1]));
             if (parser[0].equalsIgnoreCase("exi") || parser[0].equalsIgnoreCase("qui")) {
                 exitGame = true;
+            }
+            String text = textAdventure.handle(parser);
+            if (text != null && text != "") {
+                System.out.println(text);
+            }
+            else {
+                System.out.println(textAdventure.getDescription().stream().collect(Collectors.joining("\n")));
             }
         }
         while (! exitGame);

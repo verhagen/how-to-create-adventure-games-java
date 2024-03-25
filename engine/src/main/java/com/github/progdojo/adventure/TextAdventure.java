@@ -36,18 +36,36 @@ public class TextAdventure {
     };
     // NR - number of rooms
 
-    private String[] objects;
-    private String[] objectsTags;
+    private String[] objects; // The description of the object
+    private String[] objectsTags; // A tag is used to identify the unique object (used for get, drop, etc)
     private Integer[] objectsLocation; // The location (room) in which the object is.
 
     private String[] rooms = initializeRooms();
     private Map<Integer,List<Integer>> roomConnections = initializeRoomConnections();
     private Integer[][] roomDirections = initializeRoomDirections(initializeRoomConnections());
 
+    private int MAX_INVENTORY = 3;
+    private List<Integer> inventory = new ArrayList<>();
+
     private int room = 1; // Current room (starting always in room 1 - the living room)
 
     public TextAdventure() {
         initializeObjects();
+    }
+
+    /** The current room */
+    public int getRoom() {
+        return room;
+    }
+
+    public List<Integer> getInventory() {
+        List<Integer> inventory = new ArrayList<>();
+        for (int index = 0; index < objectsLocation.length; index++) {
+            if (objectsLocation[index] == -1) {
+                inventory.add(index);
+            }
+        }
+        return inventory;
     }
 
     // Lines 25000 - 25080
@@ -131,6 +149,153 @@ public class TextAdventure {
         }
         return new String[] {verb, noun};
     }
+
+    public String handle(String[] verbNoun) {
+        return handle(verbNoun[0], verbNoun[1]);
+    }
+    // Lines 2000-
+    public String handle(String verb, String noun) {
+        if (verb.equalsIgnoreCase("GO")) {
+            return handleGo(noun);
+        }
+
+        if (verb.equalsIgnoreCase("GET") || verb.equalsIgnoreCase("TAK")) {
+            return handleGet(noun);
+        }
+        if (verb.equalsIgnoreCase("DRO") || verb.equalsIgnoreCase("THR")) {
+            return handleDrop(noun);
+        }
+        if (verb.equalsIgnoreCase("INV") || verb.equalsIgnoreCase("I")) {
+            return handleInventory();
+        }
+
+        return null;
+    }
+
+    public String handleGo(String noun) {
+        int dir;
+        if (noun.equalsIgnoreCase("NOR")) {
+            dir = directionAsInt("north");
+        }
+        else if (noun.equalsIgnoreCase("SOU")) {
+            dir = directionAsInt("south");
+        }
+        else if (noun.equalsIgnoreCase("EAS")) {
+            dir = directionAsInt("east");
+        }
+        else if (noun.equalsIgnoreCase("WES")) {
+            dir = directionAsInt("west");
+        }
+        else if (noun.equalsIgnoreCase("UP")) {
+            dir = directionAsInt("up");
+        }
+        else if (noun.equalsIgnoreCase("DOW")) {
+            dir = directionAsInt("down");
+        }
+        else if (noun.equalsIgnoreCase("BOA") && objectsLocation[11] == room + 128) {
+            room = 13;
+            return null;
+        }
+        else {
+            return "YOU CAN'T GO THERE!";
+        }
+
+        if (roomDirections[room][dir] == 0) {
+            return "YOU CAN'T GO THERE!";
+        }
+        else if (roomDirections[room][dir] > 0 && roomDirections[room][dir] < 128) {
+            room = roomDirections[room][dir];
+        }
+        else {
+            // CHECK FOR SPECIAL (GREATER THAN 128)
+            if (roomDirections[room][dir] == 128) {
+                return "THE GUARD WON'T LET YOU!";
+            }
+        }
+        return null;
+    }
+
+    // Lines 2500-2600
+    public String handleGet(String noun) {
+        int objectId = getObject(noun);
+        if (objectId == -1) {
+            return "YOU CAN'T GET THAT! (no such object exists)"; // Object doesn't exist
+        }
+        int room = getRoomForObject(noun);
+        if (room == 0) {
+            return "YOU CAN'T GET THAT!"; // No such object
+        }
+        if (room == -1) {
+            return "YOU ALREADY HAVE IT!";
+        }
+        if (objectsLocation[objectId] > 127) {
+            return "YOU CAN'T GET THAT! (unmovable object)";
+        }
+        if (room != this.room) {
+            return "THAT'S NOT HERE!";
+        }
+        if (inventory.size() >= MAX_INVENTORY) {
+            return "YOU CAN'T CARRY ANY MORE.";
+        }
+
+        inventory.add(objectId);
+        objectsLocation[objectId] = -1;
+
+        if (room == 18 && noun.equalsIgnoreCase("RUB")) {
+            return "CONGRATULATIONS! YOU'VE WON!";
+        }
+
+        return "TAKEN";
+    }
+
+    // Lines 2600-2700
+    public String handleDrop(String noun) {
+        int room = getRoomForObject(noun);
+        if (room != -1) {
+            return "YOU DON'T HAVE THAT!";
+        }
+        int objectId = getObject(noun);
+        inventory.remove(Integer.valueOf(objectId));
+        objectsLocation[objectId] = this.room;
+        return "DROPPED %s.".formatted(objects[objectId]);
+    }
+
+    // Lines 2700-2800
+    public String handleInventory() {
+        List<String> text = new ArrayList<>();
+        text.add("YOU ARE CARRYING:");
+        boolean isCarrying = false;
+        for (int index = 0; index < objectsLocation.length; index++) {
+            if (objectsLocation[index] == -1) {
+                text.add("    " + objects[index]);
+                isCarrying = true;
+            }
+        }
+        if (isCarrying == false) {
+            text.add("    NOTHING");
+        }
+        return text.stream().collect(Collectors.joining("\n"));
+    }
+
+    // Lines 1000-1050
+    /** Return the room number, in case the given tag is associated with an object in the game. */
+    public int getObject(String tag) {
+        for (int index = 0; index < objectsTags.length; index++) {
+            if (objectsTags[index].equalsIgnoreCase(tag)) {
+                return index;
+            }
+        }
+        return -1;
+    }
+    public int getRoomForObject(String tag) {
+        for (int index = 0; index < objectsTags.length; index++) {
+            if (objectsTags[index].equalsIgnoreCase(tag)) {
+                return objectsLocation[index] > 127 ? objectsLocation[index] - 128: objectsLocation[index];
+            }
+        }
+        return 0;
+    }
+
     // Lines 27000 - 29900
     private String[] initializeRooms() {
       String[] rooms = new String[] {
@@ -224,5 +389,14 @@ public class TextAdventure {
             objectsLocation[index] = Integer.parseInt(boArr[2].trim());
             index++;
         }
+    }
+
+    public int directionAsInt(String text) {
+        for (int index = 0; index < directions.length; index++) {
+            if (directions[index].equalsIgnoreCase(text)) {
+                return index;
+            }
+        }
+        throw new RuntimeException("Argument text with value '%s' is not a known direction.".formatted(text));
     }
 }
