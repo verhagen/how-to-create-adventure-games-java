@@ -38,9 +38,18 @@ public class TextAdventure {
     };
     // NR - number of rooms
 
+    private String[] objects;
+    private String[] objectsTags;
+    private Integer[] objectsLocation; // The location (room) in which the object is.
+
     private String[] rooms = initializeRooms();
     private Map<Integer,List<Integer>> roomConnections = initializeRoomConnections();
     private Integer[][] roomDirections = initializeRoomDirections(initializeRoomConnections());
+
+
+    public TextAdventure() {
+        initializeObjects();
+    }
 
     // Lines 25000 - 25080
     private Integer[][] initializeRoomDirections(Map<Integer, List<Integer>> roomConnections) {
@@ -74,6 +83,22 @@ public class TextAdventure {
             if (roomDirections[room][dir] > 0) {
                 bldr.append(" ").append(directions[dir]);
             }
+        }
+        return bldr.toString();
+    }
+
+    // Lines 600 - 650
+    public String objectDescription(int room) {
+        StringBuilder bldr = new StringBuilder("YOU CAN SEE:");
+        boolean roomContainsObject = false;
+        for (int objectIndex = 0; objectIndex < objects.length; objectIndex++) {
+            if ((objectsLocation[objectIndex] & 127) == room) {
+                bldr.append("\n    ").append(objects[objectIndex]);
+                roomContainsObject = true;
+            }
+        }
+        if (! roomContainsObject) {
+            bldr.append("\n    NOTHING OF INTEREST");
         }
         return bldr.toString();
     }
@@ -136,5 +161,40 @@ public class TextAdventure {
     }
     public int getNumberOfRooms() {
         return rooms.length;
+    }
+
+
+    // Lines 26100 - 26260
+    private void initializeObjects() {
+        String[] baseObjects = new String[] {
+                "AN OLD DIARY, DIA, 1"
+                , "A SMALL BOX, BOX, 1"
+                , "CABINET, CAB, 130"
+                , "A SALT SHAKER, SAL, 0"
+                , "A DICTIONARY, DIC, 3"
+                , "WOODEN BARREL, BAR, 133"
+                , "A SMALL BOTTLE, BOT, 0"
+                , "A LADDER, LAD, 4"
+                , "A SHOVEL, SHO, 5"
+                , "A TREE, TRE, 135"
+                , "A GOLDEN SWORD, SWO, 0"
+                , "A WOODEN BOAT, BOA, 140"
+                , "A MAGIC FAN, FAN, 8"
+                , "A NASTY - LOOKING GUARD, GUA, 144"
+                , "A GLASS CASE, CAS, 146"
+                , "A GLOWING RUBY, RUB, 0"
+                , "A PAIR OF RUBBER GLOVES, GLO, 19"
+        };
+        objects = new String[baseObjects.length];
+        objectsTags = new String[baseObjects.length];
+        objectsLocation = new Integer[baseObjects.length];
+        int index = 0;
+        for (String bo : baseObjects) {
+            String[] boArr = bo.split(","); // split in [description, tag, room number]
+            objects[index] = boArr[0].trim();
+            objectsTags[index] = boArr[1].trim();
+            objectsLocation[index] = Integer.parseInt(boArr[2].trim());
+            index++;
+        }
     }
 }
