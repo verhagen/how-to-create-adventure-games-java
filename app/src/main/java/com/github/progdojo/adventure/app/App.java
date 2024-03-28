@@ -10,17 +10,17 @@ import java.util.stream.Collectors;
 public class App {
     public static void main(String[] args) throws IOException {
         TextAdventure textAdventure = new TextAdventure();
-        System.out.println("WELCOME TO: HOW TO CREATE (TEXT) ADVENTURES GAMES");
+        System.out.println("WELCOME TO: HOW TO CREATE (TEXT) ADVENTURES GAMES\n");
+        System.out.println(textAdventure.introduction());
+        // Enter data using BufferReader
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        // Reading data using readLine
+        String input = reader.readLine();
         System.out.println(textAdventure.handleLook(null));
         boolean exitGame = false;
         do {
-
-            System.out.println("WHAT NOW?");
-
-            // Enter data using BufferReader
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            // Reading data using readLine
-            String input = reader.readLine();
+            System.out.print("\nWHAT NOW? ");
+            input = reader.readLine();
             String[] parser = textAdventure.parser(input);
             String text;
             if (parser[0].equalsIgnoreCase("exi") || parser[0].equalsIgnoreCase("qui")) {

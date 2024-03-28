@@ -155,6 +155,13 @@ public class TextAdventure {
             verb = input.length() > 3 ? input.substring(0,3) : input;
             noun = null;
         }
+
+        if ("sha".equalsIgnoreCase(noun)) {
+            noun = "sal";
+        }
+        if ("for".equalsIgnoreCase(noun)) {
+            noun = "bot";
+        }
         return new String[] {verb, noun};
     }
 
@@ -767,5 +774,27 @@ public class TextAdventure {
             }
         }
         throw new RuntimeException("Argument text with value '%s' is not a known direction.".formatted(text));
+    }
+
+    public String introduction() {
+        return Arrays.stream(new String[] {
+                "ALL YOUR LIFE YOU HAD HEARD THE STORIES"
+                , "ABOUT YOUR CRAZY UNCLE SIMON. HE WAS AN"
+                , "INVENTOR, WHO KEPT DISAPPEARING FOR"
+                , "LONG PERIODS OF TIME, NEVER TELLING"
+                , "ANYONE WHERE HE HAD BEEN."
+                , ""
+                , "YOU NEVER BELIEVED THE STORIES, BUT"
+                , "WHEN YOUR UNCLE DIED AND LEFT YOU HIS"
+                , "DIARY, YOU LEARNED THAT THEY WERE TRUE."
+                , "YOUR UNCLE HAD DISCOVERED A MAGIC"
+                , "LAND, AND A SECRET FORMULA THAT COULD"
+                , "TAKE HIM THERE. IN THAT LAND WAS A"
+                , "MAGIC RUBY, AND HIS DIARY CONTAINED"
+                , "THE INSTRUCTIONS FOR GOING THERE TO"
+                , "FIND IT."
+                , ""
+                , "PRESS RETURN TO BEGIN"
+        }).collect(Collectors.joining("\n"));
     }
 }
