@@ -1,3 +1,24 @@
 = Improvements
 
-- [ ] Improve test cases with @ParameterizedTest @CsvSource
+== Game Improvements
+* [ ] Make going to a direction easier, instead of typing `go east` make it possible to type `e`, to go east.
+* [ ] Add `help` to give the player some tips
+* [ ] Add a `door` in the house, which can be open / closed
+* [ ] Add a door `lock` which needs to be opened with a key
+** [ ] Hide the key somewhere
+
+== Test Improvements
+* [ ] Improve test cases with @ParameterizedTest @CsvSource
+* [ ] Improve test cases, test all situations (code coverage)
+* [ ] Write a test, that tests the full scenario
+
+== Code Improvements (Refactor code)
+* [ ] Remove duplicated code (insid pour salt / bottle)
+* [ ] Each room should have an identifier, similar to the tag of an object. So they can be referenced by their identifier.
+* [ ] Each object tag should be the full word, not only the first 3 character. This makes reading easier. And in the processing of objects, the first 3 characters can be used.
+* [ ] Replace `directions` array, by Direction enum.
+* [ ] Create an Object class, which contains their description, tag nd location.
+* [ ] Add a Room class.
+** [ ] Create Room class
+** [ ] Add possible directions to go, to each room
+* [ ] Load game data through file loading

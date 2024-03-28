@@ -11,8 +11,7 @@ public class App {
     public static void main(String[] args) throws IOException {
         TextAdventure textAdventure = new TextAdventure();
         System.out.println("WELCOME TO: HOW TO CREATE (TEXT) ADVENTURES GAMES");
-        System.out.println(textAdventure.getDescription().stream().collect(Collectors.joining("\n")));
-//        System.out.println("Choose a room you like to see: 1..%d".formatted(textAdventure.getNumberOfRooms()));
+        System.out.println(textAdventure.handleLook(null));
         boolean exitGame = false;
         do {
 
@@ -23,21 +22,29 @@ public class App {
             // Reading data using readLine
             String input = reader.readLine();
             String[] parser = textAdventure.parser(input);
-            System.out.println("Verb: %s  Noun: %s".formatted(parser[0], parser[1]));
+            String text;
             if (parser[0].equalsIgnoreCase("exi") || parser[0].equalsIgnoreCase("qui")) {
-                exitGame = true;
-            }
-            String text = textAdventure.handle(parser);
-            if (text != null && text != "") {
-                System.out.println(text);
+                System.out.println("ARE YOU SURE YOU WANT TO QUIT (Y/N)");
+                String inputYesNo = reader.readLine();
+                if (inputYesNo.equalsIgnoreCase("yes") || inputYesNo.equalsIgnoreCase("y")) {
+                    exitGame = true;
+                    text = "Thanks for playing 'HOW TO CREATE (TEXT) ADVENTURES GAMES'" +
+                            "\nLooking forward to see you soon again!";
+                }
+                else {
+                    text = "WONDERFUL! LET US CONTINUE OUR JOURNEY";
+                }
             }
             else {
+                text = textAdventure.handle(parser);
+            }
+            if (text != null && text != "") {
+                System.out.println(text);
+            } else {
+                System.err.println("Expecting always some text...");
                 System.out.println(textAdventure.getDescription().stream().collect(Collectors.joining("\n")));
             }
         }
         while (! exitGame);
-
-        System.out.println("Thanks for playing 'HOW TO CREATE (TEXT) ADVENTURES GAMES'");
-        System.out.println("Looking forward to see you soon again!");
     }
 }
