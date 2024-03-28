@@ -1,8 +1,10 @@
-= How to Create Adventure Games
+= How to Create Adventure Games - Java Edition
 
 by Christopher Lampton
 
-A Computer awareness first book
+[#img-book,link=docs/how-to-create-adventure-games.pdf]
+image::{docdir}/docs/book-front-cover.png[, 200]
+
 
 [cols="3,6,1"]
 |===
@@ -49,4 +51,32 @@ A Computer awareness first book
 |Index
 |
 |85
+|===
+
+== About the Book
+
+The book was published in 1986 for creating a https://en.wikipedia.org/wiki/Interactive_fiction[text] https://en.wikipedia.org/wiki/Adventure_(1980_video_game)[Adventure] game. This is done through the https://en.wikipedia.org/wiki/BASIC[BASIC] programming language. Which can be used on different https://en.wikipedia.org/wiki/Home_computer[home computers], like the https://en.wikipedia.org/wiki/Commodore_64[Commodore 64], Tandy https://en.wikipedia.org/wiki/TRS-80[TRS-80], Sinclair https://en.wikipedia.org/wiki/ZX_Spectrum[ZX Spectrum], IBM PC, https://en.wikipedia.org/wiki/Apple_II_series[Apple II], etc.
+
+== Java Implementation
+
+The book is written using the https://en.wikipedia.org/wiki/BASIC[BASIC] programming language, which can easily be translated into other https://en.wikipedia.org/wiki/Programming_language[programming languages]. This repository contains a https://en.wikipedia.org/wiki/Java_(programming_language)[Java] implementation.
+
+=== Other Implementations
+
+[%header,cols="1,1,6,3"]
+|===
+|Language
+|Repo
+|Description
+|Author
+
+|https://en.wikipedia.org/wiki/C%2B%2B[C++]
+|https://gitlab.com/RachelWilShaSingh/80s-and-90s-adventure-games/-/tree/master/How%20to%20Create%20Adventure%20Games%20-%20Christopher%20Lampton?ref_type=heads[GitLab]
+|There is a nice YouTube playlist https://www.youtube.com/playlist?list=PL9Kj-MdBMaPBAXt6QLnRwK8mt8oHPOmAO[How to Create Adventure Games (1986) - Programming games from 80s and 90s books], that goes with this C++ implementation.
+|Rachel Wil Sha Singh
+
+|https://en.wikipedia.org/wiki/Rust_(programming_language)[Rust]
+|https://github.com/pshc/lampton[GitHub]
+|This is a mostly faithful port from BASIC to Rust.
+|Paul Collier
 |===
